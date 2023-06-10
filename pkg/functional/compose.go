@@ -74,3 +74,23 @@ func Compose6[
 	it5.Bind(it4)
 	return it5
 }
+
+// Compose7 creates a chain of iterators by imbuing the second iterator with the first, the third with the second, and so on.
+// The last iterator in the chain is returned.
+func Compose7[
+	S, T1, T2, T3, T4, T5, T6 any,
+	I1 partial.Function[S, T1],
+	I2 partial.Function[T1, T2],
+	I3 partial.Function[T2, T3],
+	I4 partial.Function[T3, T4],
+	I5 partial.Function[T4, T5],
+	I6 partial.Function[T5, T6],
+](source iterator.Iterator[S], it1 I1, it2 I2, it3 I3, it4 I4, it5 I5, it6 I6) I6 {
+	it1.Bind(source)
+	it2.Bind(it1)
+	it3.Bind(it2)
+	it4.Bind(it3)
+	it5.Bind(it4)
+	it6.Bind(it5)
+	return it6
+}
