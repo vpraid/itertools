@@ -30,3 +30,8 @@ func (si *SliceIterator[T]) Next() bool {
 func (si *SliceIterator[T]) Value() T {
 	return si.value
 }
+
+// Collect returns the underlying slice as is.
+func (si *SliceIterator[T]) Collect() []T {
+	return si.elements
+}
