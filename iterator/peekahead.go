@@ -43,3 +43,8 @@ func (pai *PeekAheadIterator[T]) Peek() T {
 func (pai *PeekAheadIterator[T]) Exhausted() bool {
 	return pai.exhausted
 }
+
+// Collect returns the elements of the underlying iterator as a slice.
+func (pai *PeekAheadIterator[T]) Collect() []T {
+	return CollectFromIter[T](pai)
+}
