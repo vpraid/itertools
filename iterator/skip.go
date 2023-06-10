@@ -24,3 +24,8 @@ func (it *SkipIterator[T]) Next() bool {
 func (it *SkipIterator[T]) Value() T {
 	return it.it.Value()
 }
+
+// Collect returns the elements of the underlying iterator as a slice.
+func (it *SkipIterator[T]) Collect() []T {
+	return CollectFromIter[T](it)
+}

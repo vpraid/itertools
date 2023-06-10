@@ -55,6 +55,14 @@ func TestSkip_Many(t *testing.T) {
 	assert.False(t, it.Next())
 }
 
+func TestSkip_Collect(t *testing.T) {
+	t.Parallel()
+
+	s := Slice([]int{1, 2, 3, 4})
+	it := Skip[int](s, 2)
+	assert.Equal(t, []int{3, 4}, it.Collect())
+}
+
 func ExampleSkip() {
 	s := Slice([]int{1, 2, 3, 4, 5})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known
