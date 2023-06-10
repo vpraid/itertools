@@ -8,10 +8,3 @@ type Iterator[T any] interface {
 	// Value returns the current element of the underlying iterator. If the underlying iterator was exhausted, it returns the zero value.
 	Value() T
 }
-
-// Collector is the interface that provides a way to collect the elements of an iterator into a slice.
-type Collector[T any] interface {
-	Iterator[T]
-	// Collect returns the elements of the underlying iterator as a slice.
-	Collect() []T
-}

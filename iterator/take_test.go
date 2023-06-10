@@ -8,24 +8,32 @@ import (
 )
 
 func TestTake_ZeroEmpty(t *testing.T) {
+	t.Parallel()
+
 	s := Slice([]int{})
 	take := Take[int](s, 0)
 	assert.False(t, take.Next())
 }
 
 func TestTake_ZeroSome(t *testing.T) {
+	t.Parallel()
+
 	s := Slice([]int{1, 2})
 	take := Take[int](s, 0)
 	assert.False(t, take.Next())
 }
 
 func TestTake_Empty(t *testing.T) {
+	t.Parallel()
+
 	s := Slice([]int{})
 	take := Take[int](s, 2)
 	assert.False(t, take.Next())
 }
 
 func TestTake_Few(t *testing.T) {
+	t.Parallel()
+
 	s := Slice([]int{1, 2, 3})
 	take := Take[int](s, 1)
 	assert.True(t, take.Next())
@@ -34,6 +42,8 @@ func TestTake_Few(t *testing.T) {
 }
 
 func TestTake_All(t *testing.T) {
+	t.Parallel()
+
 	s := Slice([]int{1, 2, 3})
 	take := Take[int](s, 2)
 	assert.True(t, take.Next())
@@ -44,6 +54,8 @@ func TestTake_All(t *testing.T) {
 }
 
 func TestTake_Many(t *testing.T) {
+	t.Parallel()
+
 	s := Slice([]int{1, 2, 3})
 	take := Take[int](s, 5)
 	assert.True(t, take.Next())
@@ -53,6 +65,14 @@ func TestTake_Many(t *testing.T) {
 	assert.True(t, take.Next())
 	assert.Equal(t, 3, take.Value())
 	assert.False(t, take.Next())
+}
+
+func TestTake_Collect(t *testing.T) {
+	t.Parallel()
+
+	s := Slice([]int{1, 2, 3})
+	take := Take[int](s, 2)
+	assert.Equal(t, []int{1, 2}, take.Collect())
 }
 
 func ExampleTake() {

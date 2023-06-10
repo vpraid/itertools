@@ -24,3 +24,8 @@ func (ti *TakeIterator[T]) Value() T {
 	ti.size--
 	return ti.it.Value()
 }
+
+// Collect returns the elements of the underlying iterator as a slice.
+func (ti *TakeIterator[T]) Collect() []T {
+	return CollectFromIter[T](ti)
+}
