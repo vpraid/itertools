@@ -24,9 +24,20 @@ func GroupBy[T any, K comparable](it Iterator[T], fn func(t T) K) *GroupByIterat
 	}
 }
 
+// EmptyGroupBy returns a GroupByIterator without an underlying iterator. Calling Next on it will always return false.
+func EmptyGroupBy[T any, K comparable](fn func(t T) K) *GroupByIterator[T, K] {
+	return &GroupByIterator[T, K]{
+		it: nil,
+		fn: fn,
+	}
+}
+
 // Next skips all elements within the current group until the next group is found, then returns true if there is
 // such a group, false if the underlying iterator was exhausted.
 func (gi *GroupByIterator[T, K]) Next() bool {
+	if gi.it == nil {
+		return false
+	}
 	// Skip all elements in the current group until we find the next group.
 	for !gi.it.Exhausted() {
 		// Peek ahead to see if there is a next element or if it has a different key.

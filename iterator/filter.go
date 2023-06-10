@@ -15,8 +15,19 @@ func Filter[T any](it Iterator[T], p func(T) bool) *FilterIterator[T] {
 	}
 }
 
+// EmptyFilter returns a filter iterator without an underlying iterator. Calling Next on it will always return false.
+func EmptyFilter[T any](p func(T) bool) *FilterIterator[T] {
+	return &FilterIterator[T]{
+		it: nil,
+		p:  p,
+	}
+}
+
 // Next advances the iterator to the next element.
 func (fi *FilterIterator[T]) Next() bool {
+	if fi.it == nil {
+		return false
+	}
 	for fi.it.Next() {
 		value := fi.it.Value()
 		if fi.p(value) {

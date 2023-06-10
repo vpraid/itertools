@@ -14,8 +14,19 @@ func Take[T any](it Iterator[T], size int) *TakeIterator[T] {
 	}
 }
 
+// EmptyTake returns a TakeIterator without an underlying iterator. Calling Next on it will always return false.
+func EmptyTake[T any](size int) *TakeIterator[T] {
+	return &TakeIterator[T]{
+		it:   nil,
+		size: size,
+	}
+}
+
 // Next advances the iterator to the next element. It returns false if the underlying iterator was exhausted.
 func (ti *TakeIterator[T]) Next() bool {
+	if ti.it == nil {
+		return false
+	}
 	return ti.size > 0 && ti.it.Next()
 }
 

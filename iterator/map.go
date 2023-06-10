@@ -14,8 +14,19 @@ func Map[T any, U any](it Iterator[T], fn func(t T) U) *MapIterator[T, U] {
 	}
 }
 
+// EmptyMap returns a MapIterator without an underlying iterator. Calling Next on it will always return false.
+func EmptyMap[T any, U any](fn func(t T) U) *MapIterator[T, U] {
+	return &MapIterator[T, U]{
+		it: nil,
+		fn: fn,
+	}
+}
+
 // Next advances the iterator to the next element. It returns false if the underlying iterator was exhausted.
 func (mi *MapIterator[T, U]) Next() bool {
+	if mi.it == nil {
+		return false
+	}
 	return mi.it.Next()
 }
 
