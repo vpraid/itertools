@@ -32,6 +32,9 @@ func PeekAhead[T any](it Iterator[T]) *PeekAheadIterator[T] {
 // Under the hood it calls the underlying iterator's Next method to advance it one step further than what is
 // visible to the user, while caching the value of the current and next element.
 func (pai *PeekAheadIterator[T]) Next() bool {
+	if pai.it == nil {
+		return false
+	}
 	pai.value = pai.it.Value()
 	exhausted := pai.exhausted
 	pai.exhausted = !pai.it.Next()

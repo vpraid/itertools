@@ -23,7 +23,7 @@ func Take[T any](n int) *iterator.TakeIterator[T] {
 }
 
 // PeekAhead returns a PeekAheadIterator without an underlying iterator. Calling Next on it will always return false.
-func PeekAhead[T any](it iterator.Iterator[T]) *iterator.PeekAheadIterator[T] {
+func PeekAhead[T any]() *iterator.PeekAheadIterator[T] {
 	return iterator.PeekAhead[T](nil)
 }
 
