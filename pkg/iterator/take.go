@@ -14,14 +14,6 @@ func Take[T any](it Iterator[T], size int) *TakeIterator[T] {
 	}
 }
 
-// EmptyTake returns a TakeIterator without an underlying iterator. Calling Next on it will always return false.
-func EmptyTake[T any](size int) *TakeIterator[T] {
-	return &TakeIterator[T]{
-		it:   nil,
-		size: size,
-	}
-}
-
 // Next advances the iterator to the next element. It returns false if the underlying iterator was exhausted.
 func (ti *TakeIterator[T]) Next() bool {
 	if ti.it == nil {
@@ -41,9 +33,9 @@ func (ti *TakeIterator[T]) Collect() []T {
 	return CollectFromIter[T](ti)
 }
 
-// Imbue replaces the underlying iterator with the given one. If the iterator was partially or fully exhausted,
+// Bind replaces the underlying iterator with the given one. If the iterator was partially or fully exhausted,
 // the new iterator will continue where the old one left off. The counter will not change, but the elements returned
 // by Value will be from the new iterator.
-func (ti *TakeIterator[T]) Imbue(it Iterator[T]) {
+func (ti *TakeIterator[T]) Bind(it Iterator[T]) {
 	ti.it = it
 }

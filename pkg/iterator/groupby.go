@@ -18,16 +18,14 @@ type Group[T any, K comparable] struct {
 // GroupBy returns an GroupByIterator that groups consecutive elements of the input iterator into iterable groups
 // based on the provided mapping function.
 func GroupBy[T any, K comparable](it Iterator[T], fn func(t T) K) *GroupByIterator[T, K] {
+	if it == nil {
+		return &GroupByIterator[T, K]{
+			it: nil,
+			fn: fn,
+		}
+	}
 	return &GroupByIterator[T, K]{
 		it: PeekAhead(it),
-		fn: fn,
-	}
-}
-
-// EmptyGroupBy returns a GroupByIterator without an underlying iterator. Calling Next on it will always return false.
-func EmptyGroupBy[T any, K comparable](fn func(t T) K) *GroupByIterator[T, K] {
-	return &GroupByIterator[T, K]{
-		it: nil,
 		fn: fn,
 	}
 }
@@ -66,8 +64,8 @@ func (gi *GroupByIterator[T, K]) Value() *Group[T, K] {
 	return gi.group
 }
 
-// Imbue replaces the underlying iterator with the given one.
-func (g *GroupByIterator[T, K]) Imbue(it Iterator[T]) {
+// Bind replaces the underlying iterator with the given one.
+func (g *GroupByIterator[T, K]) Bind(it Iterator[T]) {
 	g.it = PeekAhead(it)
 }
 

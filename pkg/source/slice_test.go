@@ -1,4 +1,4 @@
-package iterator
+package source
 
 import (
 	"testing"

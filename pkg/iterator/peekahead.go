@@ -1,5 +1,7 @@
 package iterator
 
+import "github.com/vpraid/itertools/internal/common"
+
 // PeekAheadIterator is an iterator that allows reading the next element without advancing the iterator.
 type PeekAheadIterator[T any] struct {
 	it        Iterator[T]
@@ -10,6 +12,14 @@ type PeekAheadIterator[T any] struct {
 
 // PeekAhead returns a PeekAheadIterator.
 func PeekAhead[T any](it Iterator[T]) *PeekAheadIterator[T] {
+	if it == nil {
+		return &PeekAheadIterator[T]{
+			it:        nil,
+			value:     common.Zero[T](),
+			peekValue: common.Zero[T](),
+			exhausted: true,
+		}
+	}
 	exhausted := !it.Next()
 	return &PeekAheadIterator[T]{
 		it:        it,
@@ -49,9 +59,9 @@ func (pai *PeekAheadIterator[T]) Collect() []T {
 	return CollectFromIter[T](pai)
 }
 
-// Imbue replaces the underlying iterator with the given one. Elements of the underlying iterator
+// Bind replaces the underlying iterator with the given one. Elements of the underlying iterator
 // will not be skipped anew if Next was already called.
-func (pai *PeekAheadIterator[T]) Imbue(it Iterator[T]) {
+func (pai *PeekAheadIterator[T]) Bind(it Iterator[T]) {
 	pai.exhausted = !it.Next()
 	pai.it = it
 	pai.peekValue = it.Value()

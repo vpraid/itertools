@@ -11,11 +11,6 @@ func Skip[T any](it Iterator[T], n int) *SkipIterator[T] {
 	return &SkipIterator[T]{it, n}
 }
 
-// EmptySkip returns a SkipIterator without an underlying iterator. Calling Next on it will always return false.
-func EmptySkip[T any](n int) *SkipIterator[T] {
-	return &SkipIterator[T]{nil, n}
-}
-
 // Next advances the iterator to the next element. It returns false if the underlying iterator was exhausted.
 // It will continue skipping elements until the underlying iterator is exhausted or n elements have been skipped.
 func (it *SkipIterator[T]) Next() bool {
@@ -38,7 +33,7 @@ func (it *SkipIterator[T]) Collect() []T {
 	return CollectFromIter[T](it)
 }
 
-// Imbue replaces the underlying iterator with the given one.
-func (si *SkipIterator[T]) Imbue(it Iterator[T]) {
+// Bind replaces the underlying iterator with the given one.
+func (si *SkipIterator[T]) Bind(it Iterator[T]) {
 	si.it = it
 }

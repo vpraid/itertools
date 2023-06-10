@@ -5,12 +5,13 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/vpraid/itertools/pkg/source"
 )
 
 func TestTake_ZeroEmpty(t *testing.T) {
 	t.Parallel()
 
-	s := Slice([]int{})
+	s := source.Slice([]int{})
 	take := Take[int](s, 0)
 	assert.False(t, take.Next())
 }
@@ -18,7 +19,7 @@ func TestTake_ZeroEmpty(t *testing.T) {
 func TestTake_ZeroSome(t *testing.T) {
 	t.Parallel()
 
-	s := Slice([]int{1, 2})
+	s := source.Slice([]int{1, 2})
 	take := Take[int](s, 0)
 	assert.False(t, take.Next())
 }
@@ -26,7 +27,7 @@ func TestTake_ZeroSome(t *testing.T) {
 func TestTake_Empty(t *testing.T) {
 	t.Parallel()
 
-	s := Slice([]int{})
+	s := source.Slice([]int{})
 	take := Take[int](s, 2)
 	assert.False(t, take.Next())
 }
@@ -34,7 +35,7 @@ func TestTake_Empty(t *testing.T) {
 func TestTake_Few(t *testing.T) {
 	t.Parallel()
 
-	s := Slice([]int{1, 2, 3})
+	s := source.Slice([]int{1, 2, 3})
 	take := Take[int](s, 1)
 	assert.True(t, take.Next())
 	assert.Equal(t, 1, take.Value())
@@ -44,7 +45,7 @@ func TestTake_Few(t *testing.T) {
 func TestTake_All(t *testing.T) {
 	t.Parallel()
 
-	s := Slice([]int{1, 2, 3})
+	s := source.Slice([]int{1, 2, 3})
 	take := Take[int](s, 2)
 	assert.True(t, take.Next())
 	assert.Equal(t, 1, take.Value())
@@ -56,7 +57,7 @@ func TestTake_All(t *testing.T) {
 func TestTake_Many(t *testing.T) {
 	t.Parallel()
 
-	s := Slice([]int{1, 2, 3})
+	s := source.Slice([]int{1, 2, 3})
 	take := Take[int](s, 5)
 	assert.True(t, take.Next())
 	assert.Equal(t, 1, take.Value())
@@ -70,26 +71,26 @@ func TestTake_Many(t *testing.T) {
 func TestTake_Collect(t *testing.T) {
 	t.Parallel()
 
-	s := Slice([]int{1, 2, 3})
+	s := source.Slice([]int{1, 2, 3})
 	take := Take[int](s, 2)
 	assert.Equal(t, []int{1, 2}, take.Collect())
 }
 
-func TestTake_Imbued(t *testing.T) {
+func TestTake_Bind(t *testing.T) {
 	t.Parallel()
 
-	s := Slice([]int{1, 2, 3})
+	s := source.Slice([]int{1, 2, 3})
 	take := Take[int](s, 2)
 	assert.True(t, take.Next())
 	assert.Equal(t, 1, take.Value())
-	take.Imbue(Slice([]int{4, 5, 6}))
+	take.Bind(source.Slice([]int{4, 5, 6}))
 	assert.True(t, take.Next())
 	assert.Equal(t, 4, take.Value())
 	assert.False(t, take.Next())
 }
 
 func ExampleTake() {
-	s := Slice([]int{1, 2, 3, 4, 5})
+	s := source.Slice([]int{1, 2, 3, 4, 5})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known
 	// limitation of the Go compiler which will be fixed in Go 1.21.
 	ti := Take[int](s, 2)

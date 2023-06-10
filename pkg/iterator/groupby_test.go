@@ -5,13 +5,14 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/vpraid/itertools/pkg/source"
 )
 
 func TestGroupBy_Empty(t *testing.T) {
 	t.Parallel()
 
 	it := GroupBy[int, bool](
-		Slice([]int{}),
+		source.Slice([]int{}),
 		func(i int) bool { return i%2 == 0 },
 	)
 
@@ -22,7 +23,7 @@ func TestGroupBy_OneGroup(t *testing.T) {
 	t.Parallel()
 
 	it := GroupBy[int, bool](
-		Slice([]int{1, 3, 5}),
+		source.Slice([]int{1, 3, 5}),
 		func(i int) bool { return i%2 == 0 },
 	)
 
@@ -44,7 +45,7 @@ func TestGroupBy_Some(t *testing.T) {
 	t.Parallel()
 
 	it := GroupBy[int, bool](
-		Slice([]int{1, 3, 5, 2, 4, 7}),
+		source.Slice([]int{1, 3, 5, 2, 4, 7}),
 		func(i int) bool { return i%2 == 0 },
 	)
 
@@ -78,7 +79,7 @@ func TestGroupBy_Collect(t *testing.T) {
 	t.Parallel()
 
 	it := GroupBy[int, bool](
-		Slice([]int{1, 3, 5, 2, 4, 7}),
+		source.Slice([]int{1, 3, 5, 2, 4, 7}),
 		func(i int) bool { return i%2 == 0 },
 	)
 
@@ -91,17 +92,17 @@ func TestGroupBy_Collect(t *testing.T) {
 	assert.False(t, it.Next())
 }
 
-func TestGroupBy_Imbue(t *testing.T) {
+func TestGroupBy_Bind(t *testing.T) {
 	t.Parallel()
 
 	it := GroupBy[int, bool](
-		Slice([]int{1, 3, 5, 2, 4, 7}),
+		source.Slice([]int{1, 3, 5, 2, 4, 7}),
 		func(i int) bool { return i%2 == 0 },
 	)
 
 	assert.True(t, it.Next())
 	assert.Equal(t, []int{1, 3, 5}, it.Value().Collect())
-	it.Imbue(Slice([]int{6, 8}))
+	it.Bind(source.Slice([]int{6, 8}))
 	assert.True(t, it.Next())
 	assert.Equal(t, []int{6, 8}, it.Value().Collect())
 }
@@ -110,7 +111,7 @@ func ExampleGroupBy() {
 	// GroupBy groups consecutive elements of the input iterator into iterable groups based on the provided mapping
 	// function.
 	it := GroupBy[int, bool](
-		Slice([]int{1, 3, 5, 2, 4, 7}),
+		source.Slice([]int{1, 3, 5, 2, 4, 7}),
 		func(i int) bool { return i%2 == 0 },
 	)
 

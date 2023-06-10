@@ -5,19 +5,20 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/vpraid/itertools/pkg/source"
 )
 
 func TestPeekAhead_Empty(t *testing.T) {
 	t.Parallel()
 
-	it := PeekAhead[int](Slice([]int{}))
+	it := PeekAhead[int](source.Slice([]int{}))
 	assert.False(t, it.Next())
 }
 
 func TestPeekAhead_Some(t *testing.T) {
 	t.Parallel()
 
-	it := PeekAhead[int](Slice([]int{1, 2, 3}))
+	it := PeekAhead[int](source.Slice([]int{1, 2, 3}))
 	assert.True(t, it.Next())
 	assert.Equal(t, 1, it.Value())
 	assert.Equal(t, 2, it.Peek())
@@ -33,25 +34,25 @@ func TestPeekAhead_Some(t *testing.T) {
 func TestPeekAhead_Collect(t *testing.T) {
 	t.Parallel()
 
-	it := PeekAhead[int](Slice([]int{1, 2, 3}))
+	it := PeekAhead[int](source.Slice([]int{1, 2, 3}))
 	assert.Equal(t, []int{1, 2, 3}, it.Collect())
 }
 
-func TestPeekAhead_Imbued(t *testing.T) {
+func TestPeekAhead_Bind(t *testing.T) {
 	t.Parallel()
 
-	it := PeekAhead[int](Slice([]int{1, 2, 3}))
+	it := PeekAhead[int](source.Slice([]int{1, 2, 3}))
 	assert.True(t, it.Next())
 	assert.Equal(t, 1, it.Value())
 	assert.Equal(t, 2, it.Peek())
-	it.Imbue(Slice([]int{4, 5, 6}))
+	it.Bind(source.Slice([]int{4, 5, 6}))
 	assert.True(t, it.Next())
 	assert.Equal(t, 4, it.Value())
 	assert.Equal(t, 5, it.Peek())
 }
 
 func ExamplePeekAhead() {
-	s := Slice([]int{1, 2, 3})
+	s := source.Slice([]int{1, 2, 3})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known
 	// limitation of Go.
 	it := PeekAhead[int](s)

@@ -1,4 +1,6 @@
-package iterator
+package source
+
+import "github.com/vpraid/itertools/internal/common"
 
 // SliceIterator is an iterator that iterates over a given slice.
 type SliceIterator[T any] struct {
@@ -17,7 +19,7 @@ func Slice[T any](elements []T) *SliceIterator[T] {
 // the underlying iterator was exhausted.
 func (si *SliceIterator[T]) Next() bool {
 	if len(si.elements) == 0 {
-		si.value = zero[T]()
+		si.value = common.Zero[T]()
 		return false
 	}
 	si.value = si.elements[0]

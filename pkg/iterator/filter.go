@@ -15,14 +15,6 @@ func Filter[T any](it Iterator[T], p func(T) bool) *FilterIterator[T] {
 	}
 }
 
-// EmptyFilter returns a filter iterator without an underlying iterator. Calling Next on it will always return false.
-func EmptyFilter[T any](p func(T) bool) *FilterIterator[T] {
-	return &FilterIterator[T]{
-		it: nil,
-		p:  p,
-	}
-}
-
 // Next advances the iterator to the next element.
 func (fi *FilterIterator[T]) Next() bool {
 	if fi.it == nil {
@@ -48,7 +40,7 @@ func (fi *FilterIterator[T]) Collect() []T {
 	return CollectFromIter[T](fi)
 }
 
-// Imbue replaces the underlying iterator with the given one.
-func (fi *FilterIterator[T]) Imbue(it Iterator[T]) {
+// Bind replaces the underlying iterator with the given one.
+func (fi *FilterIterator[T]) Bind(it Iterator[T]) {
 	fi.it = it
 }

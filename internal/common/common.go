@@ -1,7 +1,7 @@
-package iterator
+package common
 
 // Zero returns the zero value of the given type.
-func zero[T any]() T {
+func Zero[T any]() T {
 	var zero T
 	return zero
 }
