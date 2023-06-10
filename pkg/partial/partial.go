@@ -36,3 +36,8 @@ func GroupBy[T any, U comparable](fn func(T) U) *iterator.GroupByIterator[T, U] 
 func TakeWhile[T any](pred func(T) bool) *iterator.TakeWhileIterator[T] {
 	return iterator.TakeWhile[T](nil, pred)
 }
+
+// SkipWhile returns a SkipWhileIterator without an underlying iterator. Calling Next on it will always return false.
+func SkipWhile[T any](pred func(T) bool) *iterator.SkipWhileIterator[T] {
+	return iterator.SkipWhile[T](nil, pred)
+}
