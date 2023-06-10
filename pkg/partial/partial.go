@@ -31,3 +31,8 @@ func PeekAhead[T any](it iterator.Iterator[T]) *iterator.PeekAheadIterator[T] {
 func GroupBy[T any, U comparable](fn func(T) U) *iterator.GroupByIterator[T, U] {
 	return iterator.GroupBy[T, U](nil, fn)
 }
+
+// TakeWhile returns a TakeWhileIterator without an underlying iterator. Calling Next on it will always return false.
+func TakeWhile[T any](pred func(T) bool) *iterator.TakeWhileIterator[T] {
+	return iterator.TakeWhile[T](nil, pred)
+}
