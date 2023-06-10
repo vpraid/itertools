@@ -31,3 +31,8 @@ func (fi *FilterIterator[T]) Next() bool {
 func (fi *FilterIterator[T]) Value() T {
 	return fi.value
 }
+
+// Collect returns the elements of the underlying iterator as a slice.
+func (fi *FilterIterator[T]) Collect() []T {
+	return CollectFromIter[T](fi)
+}
