@@ -23,3 +23,8 @@ func (mi *MapIterator[T, U]) Next() bool {
 func (mi *MapIterator[T, U]) Value() U {
 	return mi.fn(mi.it.Value())
 }
+
+// Collect returns a slice containing all elements of the iterator.
+func (mi *MapIterator[T, U]) Collect() []U {
+	return CollectFromIter[U](mi)
+}

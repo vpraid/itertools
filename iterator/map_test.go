@@ -31,6 +31,14 @@ func TestMap_NonEmpty(t *testing.T) {
 	assert.Equal(t, 0, m.Value())
 }
 
+func TestMap_Collect(t *testing.T) {
+	t.Parallel()
+
+	s := Slice([]string{"a", "bb", "ccc"})
+	m := Map[string, int](s, func(t string) int { return len(t) })
+	assert.Equal(t, []int{1, 2, 3}, m.Collect())
+}
+
 func ExampleMap() {
 	s := Slice([]string{"a", "bb", "ccc"})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known
