@@ -36,3 +36,8 @@ func (fi *FilterIterator[T]) Value() T {
 func (fi *FilterIterator[T]) Collect() []T {
 	return CollectFromIter[T](fi)
 }
+
+// Imbue replaces the underlying iterator with the given one.
+func (fi *FilterIterator[T]) Imbue(it Iterator[T]) {
+	fi.it = it
+}

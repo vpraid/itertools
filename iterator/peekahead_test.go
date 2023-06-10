@@ -37,6 +37,19 @@ func TestPeekAhead_Collect(t *testing.T) {
 	assert.Equal(t, []int{1, 2, 3}, it.Collect())
 }
 
+func TestPeekAhead_Imbued(t *testing.T) {
+	t.Parallel()
+
+	it := PeekAhead[int](Slice([]int{1, 2, 3}))
+	assert.True(t, it.Next())
+	assert.Equal(t, 1, it.Value())
+	assert.Equal(t, 2, it.Peek())
+	it.Imbue(Slice([]int{4, 5, 6}))
+	assert.True(t, it.Next())
+	assert.Equal(t, 4, it.Value())
+	assert.Equal(t, 5, it.Peek())
+}
+
 func ExamplePeekAhead() {
 	s := Slice([]int{1, 2, 3})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known

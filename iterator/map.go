@@ -28,3 +28,8 @@ func (mi *MapIterator[T, U]) Value() U {
 func (mi *MapIterator[T, U]) Collect() []U {
 	return CollectFromIter[U](mi)
 }
+
+// Imbue replaces the underlying iterator with the given one.
+func (mi *MapIterator[T, U]) Imbue(it Iterator[T]) {
+	mi.it = it
+}

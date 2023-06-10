@@ -55,6 +55,11 @@ func (gi *GroupByIterator[T, K]) Value() *Group[T, K] {
 	return gi.group
 }
 
+// Imbue replaces the underlying iterator with the given one.
+func (g *GroupByIterator[T, K]) Imbue(it Iterator[T]) {
+	g.it = PeekAhead(it)
+}
+
 // Next advances the iterator within the group to the next element. When the group is exhausted, it fuses the
 // group iterator. This means that the group iterator will no longer be able to read from the underlying iterator.
 func (g *Group[T, K]) Next() bool {

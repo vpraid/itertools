@@ -63,6 +63,23 @@ func TestSkip_Collect(t *testing.T) {
 	assert.Equal(t, []int{3, 4}, it.Collect())
 }
 
+func TestSkip_Imbued(t *testing.T) {
+	t.Parallel()
+
+	s := Slice([]int{1, 2, 3, 4})
+	it := Skip[int](s, 2)
+	assert.True(t, it.Next())
+	assert.Equal(t, 3, it.Value())
+	it.Imbue(Slice([]int{5, 6, 7}))
+	assert.True(t, it.Next())
+	assert.Equal(t, 5, it.Value())
+	assert.True(t, it.Next())
+	assert.Equal(t, 6, it.Value())
+	assert.True(t, it.Next())
+	assert.Equal(t, 7, it.Value())
+	assert.False(t, it.Next())
+}
+
 func ExampleSkip() {
 	s := Slice([]int{1, 2, 3, 4, 5})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known

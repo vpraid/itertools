@@ -75,6 +75,19 @@ func TestTake_Collect(t *testing.T) {
 	assert.Equal(t, []int{1, 2}, take.Collect())
 }
 
+func TestTake_Imbued(t *testing.T) {
+	t.Parallel()
+
+	s := Slice([]int{1, 2, 3})
+	take := Take[int](s, 2)
+	assert.True(t, take.Next())
+	assert.Equal(t, 1, take.Value())
+	take.Imbue(Slice([]int{4, 5, 6}))
+	assert.True(t, take.Next())
+	assert.Equal(t, 4, take.Value())
+	assert.False(t, take.Next())
+}
+
 func ExampleTake() {
 	s := Slice([]int{1, 2, 3, 4, 5})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known

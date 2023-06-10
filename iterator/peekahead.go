@@ -2,7 +2,7 @@ package iterator
 
 // PeekAheadIterator is an iterator that allows reading the next element without advancing the iterator.
 type PeekAheadIterator[T any] struct {
-	Iterator[T]
+	it        Iterator[T]
 	value     T
 	peekValue T
 	exhausted bool
@@ -12,7 +12,7 @@ type PeekAheadIterator[T any] struct {
 func PeekAhead[T any](it Iterator[T]) *PeekAheadIterator[T] {
 	exhausted := !it.Next()
 	return &PeekAheadIterator[T]{
-		Iterator:  it,
+		it:        it,
 		peekValue: it.Value(),
 		exhausted: exhausted,
 	}
@@ -22,10 +22,10 @@ func PeekAhead[T any](it Iterator[T]) *PeekAheadIterator[T] {
 // Under the hood it calls the underlying iterator's Next method to advance it one step further than what is
 // visible to the user, while caching the value of the current and next element.
 func (pai *PeekAheadIterator[T]) Next() bool {
-	pai.value = pai.Iterator.Value()
+	pai.value = pai.it.Value()
 	exhausted := pai.exhausted
-	pai.exhausted = !pai.Iterator.Next()
-	pai.peekValue = pai.Iterator.Value()
+	pai.exhausted = !pai.it.Next()
+	pai.peekValue = pai.it.Value()
 	return !exhausted
 }
 
@@ -47,4 +47,12 @@ func (pai *PeekAheadIterator[T]) Exhausted() bool {
 // Collect returns the elements of the underlying iterator as a slice.
 func (pai *PeekAheadIterator[T]) Collect() []T {
 	return CollectFromIter[T](pai)
+}
+
+// Imbue replaces the underlying iterator with the given one. Elements of the underlying iterator
+// will not be skipped anew if Next was already called.
+func (pai *PeekAheadIterator[T]) Imbue(it Iterator[T]) {
+	pai.exhausted = !it.Next()
+	pai.it = it
+	pai.peekValue = it.Value()
 }

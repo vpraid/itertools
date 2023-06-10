@@ -29,3 +29,8 @@ func (it *SkipIterator[T]) Value() T {
 func (it *SkipIterator[T]) Collect() []T {
 	return CollectFromIter[T](it)
 }
+
+// Imbue replaces the underlying iterator with the given one.
+func (si *SkipIterator[T]) Imbue(it Iterator[T]) {
+	si.it = it
+}

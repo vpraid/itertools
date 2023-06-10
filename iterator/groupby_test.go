@@ -91,6 +91,21 @@ func TestGroupBy_Collect(t *testing.T) {
 	assert.False(t, it.Next())
 }
 
+func TestGroupBy_Imbue(t *testing.T) {
+	t.Parallel()
+
+	it := GroupBy[int, bool](
+		Slice([]int{1, 3, 5, 2, 4, 7}),
+		func(i int) bool { return i%2 == 0 },
+	)
+
+	assert.True(t, it.Next())
+	assert.Equal(t, []int{1, 3, 5}, it.Value().Collect())
+	it.Imbue(Slice([]int{6, 8}))
+	assert.True(t, it.Next())
+	assert.Equal(t, []int{6, 8}, it.Value().Collect())
+}
+
 func ExampleGroupBy() {
 	// GroupBy groups consecutive elements of the input iterator into iterable groups based on the provided mapping
 	// function.

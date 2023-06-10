@@ -36,6 +36,18 @@ func TestFilter_Collect(t *testing.T) {
 	assert.Equal(t, []int{2, 4}, fi.Collect())
 }
 
+func TestFilter_Imbue(t *testing.T) {
+	t.Parallel()
+
+	s := Slice([]int{1, 2, 3, 4, 5})
+	fi := Filter[int](s, func(i int) bool { return i%2 == 0 })
+	assert.True(t, fi.Next())
+	assert.Equal(t, 2, fi.Value())
+	fi.Imbue(Slice([]int{6, 7, 8}))
+	assert.True(t, fi.Next())
+	assert.Equal(t, 6, fi.Value())
+}
+
 func ExampleFilter() {
 	s := Slice([]int{1, 2, 3, 4, 5})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known
