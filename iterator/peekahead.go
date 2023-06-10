@@ -8,7 +8,7 @@ type PeekAheadIterator[T any] struct {
 	exhausted bool
 }
 
-// PeekAhead returns a PeakAheadIterator.
+// PeekAhead returns a PeekAheadIterator.
 func PeekAhead[T any](it Iterator[T]) *PeekAheadIterator[T] {
 	exhausted := !it.Next()
 	return &PeekAheadIterator[T]{
@@ -37,4 +37,9 @@ func (pai *PeekAheadIterator[T]) Value() T {
 // Peek returns the cached value of the next element.
 func (pai *PeekAheadIterator[T]) Peek() T {
 	return pai.peekValue
+}
+
+// Exhausted returns true if the underlying iterator was exhausted.
+func (pai *PeekAheadIterator[T]) Exhausted() bool {
+	return pai.exhausted
 }
