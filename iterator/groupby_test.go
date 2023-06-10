@@ -74,6 +74,23 @@ func TestGroupBy_Some(t *testing.T) {
 	assert.False(t, it.Next())
 }
 
+func TestGroupBy_Collect(t *testing.T) {
+	t.Parallel()
+
+	it := GroupBy[int, bool](
+		Slice([]int{1, 3, 5, 2, 4, 7}),
+		func(i int) bool { return i%2 == 0 },
+	)
+
+	assert.True(t, it.Next())
+	assert.Equal(t, []int{1, 3, 5}, it.Value().Collect())
+	assert.True(t, it.Next())
+	assert.Equal(t, []int{2, 4}, it.Value().Collect())
+	assert.True(t, it.Next())
+	assert.Equal(t, []int{7}, it.Value().Collect())
+	assert.False(t, it.Next())
+}
+
 func ExampleGroupBy() {
 	// GroupBy groups consecutive elements of the input iterator into iterable groups based on the provided mapping
 	// function.
@@ -85,15 +102,11 @@ func ExampleGroupBy() {
 	// Iterate over the groups.
 	for it.Next() {
 		group := it.Value()
-		// Iterate over the elements in the group.
-		for group.Next() {
-			fmt.Print(group.Value())
-		}
-		fmt.Println()
+		fmt.Println(group.Collect())
 	}
 
 	// Output:
-	// 135
-	// 24
-	// 7
+	// [1 3 5]
+	// [2 4]
+	// [7]
 }

@@ -72,3 +72,8 @@ func (g *Group[T, K]) Next() bool {
 func (g *Group[T, K]) Value() T {
 	return g.it.Value()
 }
+
+// Collect returns the elements of the group as a slice.
+func (g *Group[T, K]) Collect() []T {
+	return CollectFromIter[T](g)
+}
