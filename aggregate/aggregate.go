@@ -1,7 +1,6 @@
 package aggregate
 
 import (
-	"github.com/vpraid/itertools/functional"
 	"github.com/vpraid/itertools/iterator"
 	"golang.org/x/exp/constraints"
 )
@@ -13,10 +12,18 @@ type Number interface {
 
 // Sum returns the sum of all elements in the iterator.
 func Sum[T Number](it iterator.Iterator[T]) T {
-	return functional.Fold[T, T](it, 0, func(acc, x T) T { return acc + x })
+	var sum T
+	for it.Next() {
+		sum += it.Value()
+	}
+	return sum
 }
 
 // Product returns the product of all elements in the iterator.
 func Product[T Number](it iterator.Iterator[T]) T {
-	return functional.Fold[T, T](it, 1, func(acc, x T) T { return acc * x })
+	var product T = 1
+	for it.Next() {
+		product *= it.Value()
+	}
+	return product
 }

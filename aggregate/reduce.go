@@ -1,4 +1,4 @@
-package functional
+package aggregate
 
 import "github.com/vpraid/itertools/iterator"
 

@@ -1,4 +1,4 @@
-package functional
+package aggregate
 
 import (
 	"fmt"
