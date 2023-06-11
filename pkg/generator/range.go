@@ -22,8 +22,8 @@ func Range[T constraints.Integer](start, end T) *RangeIterator[T] {
 	}
 }
 
-// RangeWithStep returns a RangeIterator for the given start, end and step values.
-func RangeWithStep[T constraints.Integer](start, end, step T) *RangeIterator[T] {
+// RangeBy returns a RangeIterator for the given start, end and step values.
+func RangeBy[T constraints.Integer](start, end, step T) *RangeIterator[T] {
 	return &RangeIterator[T]{
 		start: start,
 		end:   end,

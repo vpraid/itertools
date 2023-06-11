@@ -38,7 +38,7 @@ func TestRange_NonEmpty(t *testing.T) {
 func TestRange_WithStep(t *testing.T) {
 	t.Parallel()
 
-	s := RangeWithStep(1, 4, 2)
+	s := RangeBy(1, 4, 2)
 	assert.True(t, s.Next())
 	assert.Equal(t, 1, s.Value())
 	assert.True(t, s.Next())
@@ -49,7 +49,7 @@ func TestRange_WithStep(t *testing.T) {
 func TestRange_WithNegativeStep(t *testing.T) {
 	t.Parallel()
 
-	s := RangeWithStep(4, 1, -2)
+	s := RangeBy(4, 1, -2)
 	assert.True(t, s.Next())
 	assert.Equal(t, 4, s.Value())
 	assert.True(t, s.Next())
@@ -60,20 +60,20 @@ func TestRange_WithNegativeStep(t *testing.T) {
 func TestRange_WithStepEmptyRange1(t *testing.T) {
 	t.Parallel()
 
-	s := RangeWithStep(1, 4, -2)
+	s := RangeBy(1, 4, -2)
 	assert.False(t, s.Next())
 }
 
 func TestRange_WithStepEmptyRange2(t *testing.T) {
 	t.Parallel()
 
-	s := RangeWithStep(5, 4, 2)
+	s := RangeBy(5, 4, 2)
 	assert.False(t, s.Next())
 }
 
 func TestRange_WithStepCollection(t *testing.T) {
 	t.Parallel()
 
-	s := RangeWithStep(1, 4, 2)
+	s := RangeBy(1, 4, 2)
 	assert.Equal(t, []int{1, 3}, s.Collect())
 }
