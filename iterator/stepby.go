@@ -19,6 +19,9 @@ func StepBy[T any](it Iterator[T], step int) *StepByIterator[T] {
 
 // Next advances the iterator to the next element.
 func (sbi *StepByIterator[T]) Next() bool {
+	if sbi.it == nil {
+		return false
+	}
 	if !sbi.it.Next() {
 		return false
 	}

@@ -45,3 +45,13 @@ func TestSkipWhile(t *testing.T) {
 	it := SkipWhile[int](func(i int) bool { return i%2 == 0 })
 	assert.False(t, it.Next())
 }
+
+func TestChunks(t *testing.T) {
+	it := Chunks[int](5)
+	assert.False(t, it.Next())
+}
+
+func TestStepBy(t *testing.T) {
+	it := StepBy[int](5)
+	assert.False(t, it.Next())
+}

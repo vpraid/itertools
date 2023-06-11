@@ -41,3 +41,13 @@ func TakeWhile[T any](pred func(T) bool) *iterator.TakeWhileIterator[T] {
 func SkipWhile[T any](pred func(T) bool) *iterator.SkipWhileIterator[T] {
 	return iterator.SkipWhile[T](nil, pred)
 }
+
+// Chunks returns a ChunkIterator without an underlying iterator. Calling Next on it will always return false.
+func Chunks[T any](n int) *iterator.ChunkIterator[T] {
+	return iterator.Chunks[T](nil, n)
+}
+
+// StepBy returns a StepByIterator without an underlying iterator. Calling Next on it will always return false.
+func StepBy[T any](n int) *iterator.StepByIterator[T] {
+	return iterator.StepBy[T](nil, n)
+}
