@@ -1,6 +1,6 @@
 package partial
 
-import "github.com/vpraid/itertools/pkg/iterator"
+import "github.com/vpraid/itertools/iterator"
 
 // Filter returns a MapIterator without an underlying iterator. Calling Next on it will always return false.
 func Filter[T any](predicate func(T) bool) *iterator.FilterIterator[T] {

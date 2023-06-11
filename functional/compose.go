@@ -1,8 +1,8 @@
 package functional
 
 import (
-	"github.com/vpraid/itertools/pkg/iterator"
-	"github.com/vpraid/itertools/pkg/partial"
+	"github.com/vpraid/itertools/iterator"
+	"github.com/vpraid/itertools/partial"
 )
 
 // Compose2 creates a chain of iterators by imbuing the second iterator with the first one.

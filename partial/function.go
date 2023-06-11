@@ -1,6 +1,6 @@
 package partial
 
-import "github.com/vpraid/itertools/pkg/iterator"
+import "github.com/vpraid/itertools/iterator"
 
 // Function is an interface that lets user imbue the implementer with another underlying iterator.
 type Function[From, To any] interface {

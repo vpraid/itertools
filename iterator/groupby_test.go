@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vpraid/itertools/pkg/source"
+	"github.com/vpraid/itertools/source"
 )
 
 func TestGroupBy_Empty(t *testing.T) {

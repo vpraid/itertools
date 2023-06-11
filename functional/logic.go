@@ -1,6 +1,6 @@
 package functional
 
-import "github.com/vpraid/itertools/pkg/iterator"
+import "github.com/vpraid/itertools/iterator"
 
 func Any[T any](source iterator.Iterator[T], predicate func(T) bool) bool {
 	for source.Next() {

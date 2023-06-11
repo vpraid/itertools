@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vpraid/itertools/pkg/generator"
-	"github.com/vpraid/itertools/pkg/iterator"
+	"github.com/vpraid/itertools/generator"
+	"github.com/vpraid/itertools/iterator"
 )
 
 func TestInterleave_Empty(t *testing.T) {

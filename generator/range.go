@@ -1,7 +1,7 @@
 package generator
 
 import (
-	"github.com/vpraid/itertools/pkg/iterator"
+	"github.com/vpraid/itertools/iterator"
 	"golang.org/x/exp/constraints"
 )
 

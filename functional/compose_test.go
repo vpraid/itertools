@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vpraid/itertools/pkg/iterator"
-	"github.com/vpraid/itertools/pkg/partial"
-	"github.com/vpraid/itertools/pkg/source"
+	"github.com/vpraid/itertools/iterator"
+	"github.com/vpraid/itertools/partial"
+	"github.com/vpraid/itertools/source"
 )
 
 func TestCompose(t *testing.T) {
