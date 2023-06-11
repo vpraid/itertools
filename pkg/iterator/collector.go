@@ -7,6 +7,7 @@ type Collector[T any] interface {
 	Collect() []T
 }
 
+// CollectFromIter returns all the values of the iterator as a slice.
 func CollectFromIter[T any](it Iterator[T]) []T {
 	var result []T
 	for it.Next() {
