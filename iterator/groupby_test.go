@@ -104,12 +104,46 @@ func TestGroupBy_Detach(t *testing.T) {
 	)
 
 	assert.True(t, it.Next())
-	assert.Equal(t, []int{1, 3, 5}, it.Value().Detach().Collect())
+	g1 := it.Value().Detach()
 	assert.True(t, it.Next())
-	assert.Equal(t, []int{2, 4}, it.Value().Detach().Collect())
+	g2 := it.Value().Detach()
 	assert.True(t, it.Next())
-	assert.Equal(t, []int{7}, it.Value().Detach().Collect())
+	g3 := it.Value().Detach()
 	assert.False(t, it.Next())
+
+	assert.Equal(t, []int{1, 3, 5}, g1.Collect())
+	assert.Equal(t, []int{2, 4}, g2.Collect())
+	assert.Equal(t, []int{7}, g3.Collect())
+}
+
+func TestGroupBy_DetachWithNext(t *testing.T) {
+	t.Parallel()
+
+	it := iterator.GroupBy[int, bool](
+		source.Slice([]int{1, 3, 5, 2, 4, 7}),
+		func(i int) bool { return i%2 == 0 },
+	)
+
+	assert.True(t, it.Next())
+	g1 := it.Value()
+	g1.Next()
+	g1.Detach()
+
+	assert.True(t, it.Next())
+	g2 := it.Value()
+	g2.Next()
+	g2.Detach()
+
+	assert.True(t, it.Next())
+	g3 := it.Value()
+	g3.Next()
+	g3.Detach()
+
+	assert.False(t, it.Next())
+
+	assert.Equal(t, []int{3, 5}, g1.Collect())
+	assert.Equal(t, []int{4}, g2.Collect())
+	assert.Equal(t, []int{}, g3.Collect())
 }
 
 func TestGroupBy_Bind(t *testing.T) {

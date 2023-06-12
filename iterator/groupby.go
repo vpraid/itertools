@@ -95,9 +95,9 @@ func (g *Group[T, K]) Collect() []T {
 }
 
 // Detach separates the group from the underlying iterator. The elements of the group will be placed in a newly allocated
-// slice, and the group iterator will no longer be able to read from the underlying iterator but instead will start reading
-// from the beginning of the slice. Addtionally, detaching the group will advance the underlying iterator of GroupBy to the
-// end of the group.
+// slice, and the group iterator will no longer read from the underlying iterator but instead will start reading from
+// the beginning of the slice. Addtionally, detaching the group will advance the underlying iterator to the end of the
+// group.
 func (g *Group[T, K]) Detach() *Group[T, K] {
 	g.it = PeekAhead[T](source.Slice[T](g.Collect()))
 	g.fused = false
