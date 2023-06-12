@@ -60,3 +60,8 @@ func (ri *RangeIterator[T]) Value() T {
 func (ri *RangeIterator[T]) Collect() []T {
 	return iterator.CollectFromIter[T](ri)
 }
+
+// Chan returns a channel that yields the elements of the underlying iterator.
+func (ri *RangeIterator[T]) Chan() <-chan T {
+	return iterator.ChanFromIter[T](ri)
+}

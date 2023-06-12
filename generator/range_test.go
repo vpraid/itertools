@@ -77,3 +77,12 @@ func TestRange_WithStepCollection(t *testing.T) {
 	s := RangeBy(1, 4, 2)
 	assert.Equal(t, []int{1, 3}, s.Collect())
 }
+
+func TestRange_Chan(t *testing.T) {
+	t.Parallel()
+
+	ch := RangeBy(1, 6, 2).Chan()
+	assert.Equal(t, 1, <-ch)
+	assert.Equal(t, 3, <-ch)
+	assert.Equal(t, 5, <-ch)
+}
