@@ -25,3 +25,8 @@ func (mi *MergeIterator[U]) Value() U {
 func (mi *MergeIterator[U]) Collect() []U {
 	return CollectFromIter[U](mi)
 }
+
+// Chan returns a channel that will receive all elements in the iterator.
+func (mi *MergeIterator[U]) Chan() <-chan U {
+	return ChanFromIter[U](mi)
+}
