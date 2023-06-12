@@ -52,6 +52,24 @@ func TestTakeWhile_None(t *testing.T) {
 	assert.False(t, it.Next())
 }
 
+func TestTakeWhile_Collect(t *testing.T) {
+	t.Parallel()
+
+	s := source.Slice([]int{1, 3, 5, 4, 6})
+	it := TakeWhile[int](s, func(i int) bool { return i%2 == 1 })
+	assert.Equal(t, []int{1, 3, 5}, it.Collect())
+}
+
+func TestTakeWhile_Chan(t *testing.T) {
+	t.Parallel()
+
+	s := source.Slice([]int{1, 3, 5, 4, 6})
+	ch := TakeWhile[int](s, func(i int) bool { return i%2 == 1 }).Chan()
+	assert.Equal(t, 1, <-ch)
+	assert.Equal(t, 3, <-ch)
+	assert.Equal(t, 5, <-ch)
+}
+
 func ExampleTakeWhile() {
 	s := source.Slice([]int{1, 3, 5, 4, 6})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known
