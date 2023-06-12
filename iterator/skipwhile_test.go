@@ -50,6 +50,24 @@ func TestSkipWhile_None(t *testing.T) {
 	assert.False(t, it.Next())
 }
 
+func TestSkipWhile_Collect(t *testing.T) {
+	t.Parallel()
+
+	s := source.Slice([]int{1, 3, 5, 4, 6})
+	it := SkipWhile[int](s, func(i int) bool { return i%2 == 1 })
+	assert.Equal(t, []int{4, 6}, it.Collect())
+}
+
+func TestSkipWhile_Chan(t *testing.T) {
+	t.Parallel()
+
+	s := source.Slice([]int{1, 3, 5, 4, 6})
+	it := SkipWhile[int](s, func(i int) bool { return i%2 == 1 })
+	c := it.Chan()
+	assert.Equal(t, 4, <-c)
+	assert.Equal(t, 6, <-c)
+}
+
 func ExampleSkipWhile() {
 	s := source.Slice([]int{1, 3, 5, 4, 6})
 	// We need to specify the type of the iterator explicitly because the compiler cannot infer it yet. This is a known
