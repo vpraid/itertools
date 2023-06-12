@@ -37,3 +37,8 @@ func (ffi *FromFnIterator[T]) Value() T {
 func (ffi *FromFnIterator[T]) Collect() []T {
 	return iterator.CollectFromIter[T](ffi)
 }
+
+// Chan returns a channel that yields the elements of the underlying iterator.
+func (ffi *FromFnIterator[T]) Chan() <-chan T {
+	return iterator.ChanFromIter[T](ffi)
+}
