@@ -36,3 +36,20 @@ func (ci *ChainIterator[T]) Next() bool {
 func (ci *ChainIterator[T]) Value() T {
 	return ci.head.Value()
 }
+
+// Collect returns all remaining elements as a slice.
+func (ci *ChainIterator[T]) Collect() []T {
+	return CollectFromIter[T](ci)
+}
+
+// Chan returns a channel that will receive the elements of the underlying iterator.
+func (ci *ChainIterator[T]) Chan() <-chan T {
+	channel := make(chan T)
+	go func() {
+		defer close(channel)
+		for ci.Next() {
+			channel <- ci.Value()
+		}
+	}()
+	return channel
+}
