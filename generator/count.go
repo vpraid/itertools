@@ -1,6 +1,9 @@
 package generator
 
-import "golang.org/x/exp/constraints"
+import (
+	"github.com/vpraid/itertools/iterator"
+	"golang.org/x/exp/constraints"
+)
 
 type CountIterator[T constraints.Integer] struct {
 	start T
@@ -35,4 +38,9 @@ func (ci *CountIterator[T]) Next() bool {
 // Value returns the current element.
 func (ci *CountIterator[T]) Value() T {
 	return ci.value - ci.step
+}
+
+// Chan returns a channel that yields the elements of the underlying iterator.
+func (ci *CountIterator[T]) Chan() <-chan T {
+	return iterator.ChanFromIter[T](ci)
 }

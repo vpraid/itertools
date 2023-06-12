@@ -37,3 +37,12 @@ func TestCountBy(t *testing.T) {
 	assert.True(t, ci.Next())
 	assert.Equal(t, 8, ci.Value())
 }
+
+func TestCountBy_Chan(t *testing.T) {
+	t.Parallel()
+
+	ch := CountBy[int](0, 2).Chan()
+	assert.Equal(t, 0, <-ch)
+	assert.Equal(t, 2, <-ch)
+	assert.Equal(t, 4, <-ch)
+}
