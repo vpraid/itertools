@@ -32,3 +32,12 @@ func TestString_Collect(t *testing.T) {
 	si := String("abc")
 	assert.Equal(t, []rune{'a', 'b', 'c'}, si.Collect())
 }
+
+func TestString_Chan(t *testing.T) {
+	t.Parallel()
+
+	ch := String("abc").Chan()
+	assert.Equal(t, 'a', <-ch)
+	assert.Equal(t, 'b', <-ch)
+	assert.Equal(t, 'c', <-ch)
+}

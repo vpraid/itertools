@@ -27,3 +27,8 @@ func (li *LiteralIterator[T]) Value() T {
 func (li *LiteralIterator[T]) Collect() []T {
 	return li.SliceIterator.Collect()
 }
+
+// Chan returns a channel that yields the elements of the underlying iterator.
+func (li *LiteralIterator[T]) Chan() <-chan T {
+	return li.SliceIterator.Chan()
+}

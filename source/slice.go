@@ -37,3 +37,15 @@ func (si *SliceIterator[T]) Value() T {
 func (si *SliceIterator[T]) Collect() []T {
 	return si.elements
 }
+
+// Chan returns a channel that yields the elements of the underlying iterator.
+func (si *SliceIterator[T]) Chan() <-chan T {
+	channel := make(chan T)
+	go func() {
+		defer close(channel)
+		for si.Next() {
+			channel <- si.Value()
+		}
+	}()
+	return channel
+}

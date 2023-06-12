@@ -44,3 +44,15 @@ func (si *StringIterator) Collect() []rune {
 	}
 	return result
 }
+
+// Chan returns a channel that yields the elements of the underlying iterator.
+func (si *StringIterator) Chan() <-chan rune {
+	channel := make(chan rune)
+	go func() {
+		defer close(channel)
+		for si.Next() {
+			channel <- si.Value()
+		}
+	}()
+	return channel
+}

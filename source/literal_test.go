@@ -34,3 +34,12 @@ func TestLiteral_Collect(t *testing.T) {
 	it := Literal(1, 2, 3)
 	assert.Equal(t, []int{1, 2, 3}, it.Collect())
 }
+
+func TestLiteral_Chan(t *testing.T) {
+	t.Parallel()
+
+	ch := Literal(1, 2, 3).Chan()
+	assert.Equal(t, 1, <-ch)
+	assert.Equal(t, 2, <-ch)
+	assert.Equal(t, 3, <-ch)
+}

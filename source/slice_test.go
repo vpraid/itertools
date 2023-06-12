@@ -34,3 +34,12 @@ func TestSlice_Collect(t *testing.T) {
 	s := Slice([]int{1, 2, 3})
 	assert.Equal(t, []int{1, 2, 3}, s.Collect())
 }
+
+func TestSlice_Chan(t *testing.T) {
+	t.Parallel()
+
+	ch := Slice([]int{1, 2, 3}).Chan()
+	assert.Equal(t, 1, <-ch)
+	assert.Equal(t, 2, <-ch)
+	assert.Equal(t, 3, <-ch)
+}
