@@ -38,6 +38,16 @@ func TestPeekAhead_Collect(t *testing.T) {
 	assert.Equal(t, []int{1, 2, 3}, it.Collect())
 }
 
+func TestPeekAhead_Chan(t *testing.T) {
+	t.Parallel()
+
+	it := PeekAhead[int](source.Slice([]int{1, 2, 3}))
+	c := it.Chan()
+	assert.Equal(t, 1, <-c)
+	assert.Equal(t, 2, <-c)
+	assert.Equal(t, 3, <-c)
+}
+
 func TestPeekAhead_Bind(t *testing.T) {
 	t.Parallel()
 

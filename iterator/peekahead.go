@@ -62,6 +62,11 @@ func (pai *PeekAheadIterator[T]) Collect() []T {
 	return CollectFromIter[T](pai)
 }
 
+// Chan returns a channel that will receive the elements of the underlying iterator.
+func (pai *PeekAheadIterator[T]) Chan() <-chan T {
+	return ChanFromIter[T](pai)
+}
+
 // Bind replaces the underlying iterator with the given one. Elements of the underlying iterator
 // will not be skipped anew if Next was already called.
 func (pai *PeekAheadIterator[T]) Bind(it Iterator[T]) {
