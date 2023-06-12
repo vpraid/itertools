@@ -33,3 +33,24 @@ func TestWindows(t *testing.T) {
 	assert.Equal(t, []int{3, 4, 5}, it.Value().Collect())
 	assert.False(t, it.Next())
 }
+
+func TestWindows_Chan(t *testing.T) {
+	t.Parallel()
+
+	it := Windows[int](source.Slice([]int{1, 2, 3, 4}), 2)
+	assert.True(t, it.Next())
+
+	c1 := it.Value().Chan()
+	assert.True(t, it.Next())
+	c2 := it.Value().Chan()
+	assert.True(t, it.Next())
+	c3 := it.Value().Chan()
+	assert.False(t, it.Next())
+
+	assert.Equal(t, 1, <-c1)
+	assert.Equal(t, 2, <-c1)
+	assert.Equal(t, 2, <-c2)
+	assert.Equal(t, 3, <-c2)
+	assert.Equal(t, 3, <-c3)
+	assert.Equal(t, 4, <-c3)
+}

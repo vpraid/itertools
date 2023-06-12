@@ -88,3 +88,8 @@ func (w *Window[T]) Value() T {
 func (w *Window[T]) Collect() []T {
 	return w.elements
 }
+
+// Chan returns a channel that will receive the remaining elements.
+func (w *Window[T]) Chan() <-chan T {
+	return ChanFromIter[T](w)
+}
