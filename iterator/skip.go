@@ -33,6 +33,11 @@ func (it *SkipIterator[T]) Collect() []T {
 	return CollectFromIter[T](it)
 }
 
+// Chan returns a channel that will receive the elements of the underlying iterator.
+func (it *SkipIterator[T]) Chan() <-chan T {
+	return ChanFromIter[T](it)
+}
+
 // Bind replaces the underlying iterator with the given one.
 func (si *SkipIterator[T]) Bind(it Iterator[T]) {
 	si.it = it

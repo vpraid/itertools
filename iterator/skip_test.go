@@ -64,6 +64,16 @@ func TestSkip_Collect(t *testing.T) {
 	assert.Equal(t, []int{3, 4}, it.Collect())
 }
 
+func TestSkip_Chan(t *testing.T) {
+	t.Parallel()
+
+	s := source.Slice([]int{1, 2, 3, 4})
+	it := Skip[int](s, 2)
+	c := it.Chan()
+	assert.Equal(t, 3, <-c)
+	assert.Equal(t, 4, <-c)
+}
+
 func TestSkip_Bind(t *testing.T) {
 	t.Parallel()
 
