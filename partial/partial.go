@@ -51,3 +51,8 @@ func Chunks[T any](n int) *iterator.ChunkIterator[T] {
 func StepBy[T any](n int) *iterator.StepByIterator[T] {
 	return iterator.StepBy[T](nil, n)
 }
+
+// Windows returns a WindowIterator without an underlying iterator. Calling Next on it will always return false.
+func Windows[T any](n int) *iterator.WindowIterator[T] {
+	return iterator.Windows[T](nil, n)
+}

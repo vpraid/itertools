@@ -55,3 +55,8 @@ func TestStepBy(t *testing.T) {
 	it := StepBy[int](5)
 	assert.False(t, it.Next())
 }
+
+func TestWindows(t *testing.T) {
+	it := Windows[int](5)
+	assert.False(t, it.Next())
+}
