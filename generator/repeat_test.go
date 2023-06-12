@@ -15,3 +15,12 @@ func TestRepeat(t *testing.T) {
 	assert.True(t, s.Next())
 	assert.Equal(t, 1, s.Value())
 }
+
+func TestRepeat_Chan(t *testing.T) {
+	t.Parallel()
+
+	ch := Repeat(1).Chan()
+	assert.Equal(t, 1, <-ch)
+	assert.Equal(t, 1, <-ch)
+	assert.Equal(t, 1, <-ch)
+}

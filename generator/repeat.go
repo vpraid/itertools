@@ -1,5 +1,7 @@
 package generator
 
+import "github.com/vpraid/itertools/iterator"
+
 type RepeatIterator[T any] struct {
 	value T
 }
@@ -19,4 +21,9 @@ func (ri *RepeatIterator[T]) Next() bool {
 // Value returns the same value over and over again.
 func (ri *RepeatIterator[T]) Value() T {
 	return ri.value
+}
+
+// Chan returns a channel that yields the elements of the underlying iterator.
+func (ri *RepeatIterator[T]) Chan() <-chan T {
+	return iterator.ChanFromIter[T](ri)
 }
