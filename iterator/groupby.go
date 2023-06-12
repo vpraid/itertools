@@ -94,6 +94,11 @@ func (g *Group[T, K]) Collect() []T {
 	return CollectFromIter[T](g)
 }
 
+// Chan returns a channel that will receive the elements of the group.
+func (g *Group[T, K]) Chan() <-chan T {
+	return ChanFromIter[T](g)
+}
+
 // Detach separates the group from the underlying iterator. The elements of the group will be placed in a newly allocated
 // slice, and the group iterator will no longer read from the underlying iterator but instead will start reading from
 // the beginning of the slice. Addtionally, detaching the group will advance the underlying iterator to the end of the
