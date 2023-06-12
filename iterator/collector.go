@@ -9,7 +9,7 @@ type Collector[T any] interface {
 
 // CollectFromIter returns all the values of the iterator as a slice.
 func CollectFromIter[T any](it Iterator[T]) []T {
-	var result []T
+	var result []T = make([]T, 0)
 	for it.Next() {
 		result = append(result, it.Value())
 	}
