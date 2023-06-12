@@ -40,6 +40,11 @@ func (fi *FilterIterator[T]) Collect() []T {
 	return CollectFromIter[T](fi)
 }
 
+// Chan returns a channel that will receive the elements of the underlying iterator.
+func (fi *FilterIterator[T]) Chan() <-chan T {
+	return ChanFromIter[T](fi)
+}
+
 // Bind replaces the underlying iterator with the given one.
 func (fi *FilterIterator[T]) Bind(it Iterator[T]) {
 	fi.it = it

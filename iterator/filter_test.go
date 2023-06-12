@@ -37,6 +37,16 @@ func TestFilter_Collect(t *testing.T) {
 	assert.Equal(t, []int{2, 4}, fi.Collect())
 }
 
+func TestFilter_Chan(t *testing.T) {
+	t.Parallel()
+
+	s := source.Slice([]int{1, 2, 3, 4, 5})
+	fi := Filter[int](s, func(i int) bool { return i%2 == 0 })
+	c := fi.Chan()
+	assert.Equal(t, 2, <-c)
+	assert.Equal(t, 4, <-c)
+}
+
 func TestFilter_Bind(t *testing.T) {
 	t.Parallel()
 
