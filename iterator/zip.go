@@ -34,3 +34,8 @@ func (zi *ZipIterator[T, U]) Value() Pair[T, U] {
 func (zi *ZipIterator[T, U]) Collect() []Pair[T, U] {
 	return CollectFromIter[Pair[T, U]](zi)
 }
+
+// Chan returns a channel that yields the elements of the underlying iterator.
+func (zi *ZipIterator[T, U]) Chan() <-chan Pair[T, U] {
+	return ChanFromIter[Pair[T, U]](zi)
+}

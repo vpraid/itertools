@@ -44,6 +44,27 @@ func TestZip_OneShorter(t *testing.T) {
 	assert.False(t, it.Next())
 }
 
+func TestZip_Collect(t *testing.T) {
+	t.Parallel()
+
+	s1 := source.Slice([]int{1, 2, 3})
+	s2 := source.Slice([]int{4, 5, 6})
+	it := Zip[int, int](s1, s2)
+	assert.Equal(t, []Pair[int, int]{{1, 4}, {2, 5}, {3, 6}}, it.Collect())
+}
+
+func TestZip_Chan(t *testing.T) {
+	t.Parallel()
+
+	s1 := source.Slice([]int{1, 2, 3})
+	s2 := source.Slice([]int{4, 5, 6})
+	ch := Zip[int, int](s1, s2).Chan()
+
+	assert.Equal(t, Pair[int, int]{1, 4}, <-ch)
+	assert.Equal(t, Pair[int, int]{2, 5}, <-ch)
+	assert.Equal(t, Pair[int, int]{3, 6}, <-ch)
+}
+
 func ExampleZip() {
 	s1 := source.Slice([]int{1, 2, 3})
 	s2 := source.Slice([]int{4, 5, 6})
