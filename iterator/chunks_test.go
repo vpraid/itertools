@@ -90,6 +90,24 @@ func TestChunks_DetachWithNext(t *testing.T) {
 	assert.Equal(t, []int{}, c3.Collect())
 }
 
+func TestChunks_Chan(t *testing.T) {
+	t.Parallel()
+
+	it := iterator.Chunks[int](source.Slice([]int{1, 2, 3, 4}), 2)
+	assert.True(t, it.Next())
+
+	c1 := it.Value().Detach().Chan()
+	assert.True(t, it.Next())
+
+	c2 := it.Value().Detach().Chan()
+	assert.False(t, it.Next())
+
+	assert.Equal(t, 1, <-c1)
+	assert.Equal(t, 2, <-c1)
+	assert.Equal(t, 3, <-c2)
+	assert.Equal(t, 4, <-c2)
+}
+
 func ExampleChunks() {
 	// This example demonstrates how to use Chunks to iterate over a slice in
 	// chunks of a given size.

@@ -90,6 +90,11 @@ func (c *Chunk[T]) Collect() []T {
 	return CollectFromIter[T](c)
 }
 
+// Chan returns a channel that will receive the elements of the chunk.
+func (c *Chunk[T]) Chan() <-chan T {
+	return ChanFromIter[T](c)
+}
+
 // Detach separates the chunk from the underlying iterator. The elements of the chunk will be placed in a newly allocated
 // slice, and the chunk iterator will no longer read from the underlying iterator but instead will start reading
 // from the beginning of the newly allocated slice. Addtionally, detaching the chunk will advance the underlying iterator
