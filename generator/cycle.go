@@ -1,6 +1,9 @@
 package generator
 
-import "github.com/vpraid/itertools/internal/common"
+import (
+	"github.com/vpraid/itertools/internal/common"
+	"github.com/vpraid/itertools/iterator"
+)
 
 type CycleIterator[T any] struct {
 	elements []T
@@ -35,4 +38,9 @@ func (ci *CycleIterator[T]) Next() bool {
 // Value returns the current element.
 func (ci *CycleIterator[T]) Value() T {
 	return ci.value
+}
+
+// Chan returns a channel that yields the elements of the underlying iterator.
+func (ci *CycleIterator[T]) Chan() <-chan T {
+	return iterator.ChanFromIter[T](ci)
 }

@@ -49,3 +49,15 @@ func TestCycleLiteral(t *testing.T) {
 	assert.True(t, ci.Next())
 	assert.Equal(t, 3, ci.Value())
 }
+
+func TestCycle_Chan(t *testing.T) {
+	t.Parallel()
+
+	ch := Cycle[int]([]int{1, 2, 3}).Chan()
+	assert.Equal(t, 1, <-ch)
+	assert.Equal(t, 2, <-ch)
+	assert.Equal(t, 3, <-ch)
+	assert.Equal(t, 1, <-ch)
+	assert.Equal(t, 2, <-ch)
+	assert.Equal(t, 3, <-ch)
+}
