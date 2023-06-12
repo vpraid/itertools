@@ -40,6 +40,17 @@ func TestMap_Collect(t *testing.T) {
 	assert.Equal(t, []int{1, 2, 3}, m.Collect())
 }
 
+func TestMap_Chan(t *testing.T) {
+	t.Parallel()
+
+	s := source.Slice([]string{"a", "bb", "ccc"})
+	m := Map[string, int](s, func(t string) int { return len(t) })
+	c := m.Chan()
+	assert.Equal(t, 1, <-c)
+	assert.Equal(t, 2, <-c)
+	assert.Equal(t, 3, <-c)
+}
+
 func TestMap_Bind(t *testing.T) {
 	t.Parallel()
 

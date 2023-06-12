@@ -32,6 +32,11 @@ func (mi *MapIterator[T, U]) Collect() []U {
 	return CollectFromIter[U](mi)
 }
 
+// Chan returns a channel that will receive all elements of the iterator.
+func (mi *MapIterator[T, U]) Chan() <-chan U {
+	return ChanFromIter[U](mi)
+}
+
 // Bind replaces the underlying iterator with the given one.
 func (mi *MapIterator[T, U]) Bind(it Iterator[T]) {
 	mi.it = it
