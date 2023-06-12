@@ -33,6 +33,11 @@ func (ti *TakeIterator[T]) Collect() []T {
 	return CollectFromIter[T](ti)
 }
 
+// Chan returns a channel that will receive the elements of the underlying iterator.
+func (ti *TakeIterator[T]) Chan() <-chan T {
+	return ChanFromIter[T](ti)
+}
+
 // Bind replaces the underlying iterator with the given one. If the iterator was partially or fully exhausted,
 // the new iterator will continue where the old one left off. The counter will not change, but the elements returned
 // by Value will be from the new iterator.

@@ -76,6 +76,17 @@ func TestTake_Collect(t *testing.T) {
 	assert.Equal(t, []int{1, 2}, take.Collect())
 }
 
+func TestTake_Chan(t *testing.T) {
+	t.Parallel()
+
+	s := source.Slice([]int{1, 2, 3})
+	take := Take[int](s, 2)
+	ch := take.Chan()
+	assert.Equal(t, 1, <-ch)
+	assert.Equal(t, 2, <-ch)
+	assert.False(t, take.Next())
+}
+
 func TestTake_Bind(t *testing.T) {
 	t.Parallel()
 
