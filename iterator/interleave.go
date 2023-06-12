@@ -37,3 +37,8 @@ func (ii *InterleaveIterator[T]) Value() T {
 func (ii *InterleaveIterator[T]) Collect() []T {
 	return CollectFromIter[T](ii)
 }
+
+// Chan returns a channel that will receive the remaining elements.
+func (ii *InterleaveIterator[T]) Chan() <-chan T {
+	return ChanFromIter[T](ii)
+}
